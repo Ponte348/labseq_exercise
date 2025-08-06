@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.math.BigInteger;
 import java.security.SecureRandom;
 
 @QuarkusTest
@@ -27,7 +28,7 @@ public class LabseqServiceTest {
         "3, 1"
     })
     void testBaseCases(int input, int expected) {
-        assertEquals(expected, labseqService.sequence(input));
+        assertEquals(BigInteger.valueOf(expected), labseqService.sequence(input));
     }
 
     @DisplayName("Test recursive cases (n>3)")
@@ -46,7 +47,7 @@ public class LabseqServiceTest {
         "20, 21"
     })
     void testRecursiveCases(int input, int expected) {
-        assertEquals(expected, labseqService.sequence(input));
+        assertEquals(BigInteger.valueOf(expected), labseqService.sequence(input));
     }
     
     @Test
@@ -54,11 +55,11 @@ public class LabseqServiceTest {
     // Not checking value, just measuring time
     void testLargeNumberPerformance() {
         long startTime = System.currentTimeMillis();
-        Integer result = labseqService.sequence(25);
+        BigInteger result = labseqService.sequence(10000);
         long endTime = System.currentTimeMillis();
         
         System.out.println("Time to calculate l(10000): " + (endTime - startTime) + "ms");
-        
+        System.out.println("Result: " + result);
         assertEquals(true, result != null);
     }
     
@@ -69,6 +70,6 @@ public class LabseqServiceTest {
         
         assertThrows(IllegalArgumentException.class, () -> {
             labseqService.sequence(randomNegative);
-        }, "Should throw IllegalArgumentException for negative input: " + randomNegative);
+        });
     }
 }
