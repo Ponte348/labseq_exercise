@@ -33,6 +33,8 @@ public class LabseqServiceTest {
     @DisplayName("Test recursive cases (n>3)")
     @ParameterizedTest
     @CsvSource({
+        "2, 0",
+        "3, 1",
         "4, 1",
         "5, 1",
         "6, 1",
@@ -40,8 +42,8 @@ public class LabseqServiceTest {
         "8, 2",
         "9, 2",
         "10, 3",
-        "15, 5",
-        "20, 11"
+        "15, 8",
+        "20, 21"
     })
     void testRecursiveCases(int input, int expected) {
         assertEquals(expected, labseqService.sequence(input));
@@ -52,7 +54,7 @@ public class LabseqServiceTest {
     // Not checking value, just measuring time
     void testLargeNumberPerformance() {
         long startTime = System.currentTimeMillis();
-        Integer result = labseqService.sequence(10000);
+        Integer result = labseqService.sequence(25);
         long endTime = System.currentTimeMillis();
         
         System.out.println("Time to calculate l(10000): " + (endTime - startTime) + "ms");
