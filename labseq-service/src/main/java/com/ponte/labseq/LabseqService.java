@@ -21,6 +21,9 @@ public class LabseqService {
      */ 
     @CacheResult(cacheName = "labseqCache")
     public BigInteger sequence(Integer n) {
+        if (n == null) {
+            throw new IllegalArgumentException("Input must not be null.");
+        }
         if (n < 0) {
             throw new IllegalArgumentException("Input must be a non-negative integer.");
         }
