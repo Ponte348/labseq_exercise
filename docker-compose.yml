@@ -1,0 +1,27 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    container_name: labseq-backend
+    hostname: backend
+    ports:
+      - "8080:8080"
+    networks:
+      - labseq-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    container_name: labseq-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - labseq-network
+
+networks:
+  labseq-network:
+    driver: bridge
