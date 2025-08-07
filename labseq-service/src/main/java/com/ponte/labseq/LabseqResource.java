@@ -2,10 +2,10 @@ package com.ponte.labseq;
 
 import java.math.BigInteger;
 
-import io.quarkus.cache.CacheResult;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -25,14 +25,29 @@ public class LabseqResource {
     @GET
     @Path("/{n}")
     @Produces(MediaType.APPLICATION_JSON)
-    @CacheResult(cacheName = "labseqCache")
-    public Response getSequence(Integer n) {
+    public Response getSequence(@PathParam("n") String nStr) {
         try {
+            Integer n;
+            try {
+                n = Integer.parseInt(nStr);
+            } catch (NumberFormatException e) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                               .entity("Input must be a valid integer.")
+                               .build();
+            }
+            
             BigInteger result = labseqService.sequence(n);
+            
             return Response.ok(result).build();
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.BAD_REQUEST)
-                           .entity("Input must be a non-negative integer.")
+                           .entity(e.getMessage())
+                           .build();
+        } catch (Exception e) {
+            System.err.println("Error processing request: " + e.getMessage());
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("An unexpected error occurred.")
                            .build();
         }
     }
