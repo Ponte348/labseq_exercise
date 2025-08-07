@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LabseqService {
-  private apiUrl = 'http://localhost:8080/labseq';
+  private apiUrl = '/api/labseq';
 
   constructor(private http: HttpClient) { }
 
