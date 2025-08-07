@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -55,10 +56,10 @@ public class LabseqServiceTest {
     // Not checking value, just measuring time
     void testLargeNumberPerformance() {
         long startTime = System.currentTimeMillis();
-        BigInteger result = labseqService.sequence(10000);
+        BigInteger result = labseqService.sequence(100000);
         long endTime = System.currentTimeMillis();
         
-        System.out.println("Time to calculate l(10000): " + (endTime - startTime) + "ms");
+        System.out.println("Time to calculate l(100000): " + (endTime - startTime) + "ms");
         System.out.println("Result: " + result);
         assertEquals(true, result != null);
     }
@@ -72,4 +73,13 @@ public class LabseqServiceTest {
             labseqService.sequence(randomNegative);
         });
     }
+
+    @Test
+    @DisplayName("Test null input")
+    void testNullInput() {
+        assertThrows(NullPointerException.class, () -> {
+            labseqService.sequence(null);
+        });
+    }
+
 }
