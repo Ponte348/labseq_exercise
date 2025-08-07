@@ -16,7 +16,7 @@ buildNumber.properties
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
-# secrets
-application.properties
+# secrets - since this is an example we don't need this
+# application.properties
 
-.env
+# .env
