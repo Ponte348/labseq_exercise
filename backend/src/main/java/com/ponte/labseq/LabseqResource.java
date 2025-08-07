@@ -24,7 +24,7 @@ public class LabseqResource {
 
     @GET
     @Path("/{n}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public Response getSequence(@PathParam("n") String nStr) {
         try {
             Integer n;
@@ -37,8 +37,9 @@ public class LabseqResource {
             }
             
             BigInteger result = labseqService.sequence(n);
-            
-            return Response.ok(result).build();
+
+            // Return as string because Angular can't hanbdle big numbers
+            return Response.ok(result.toString()).build();
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.BAD_REQUEST)
                            .entity(e.getMessage())
